@@ -1,34 +1,34 @@
 class Solution {
 public:
     set<vector<int>> s;
-    void getcombinations(vector<int>& arr,int idx, int target, vector<vector<int>> &ans, vector<int> &combination){
-        if(idx == arr.size() || target < 0){
+    void getAllcombin(vector<int>& arr, int idx, int target, vector<vector<int>>& ans, vector<int>& combin){
+        if(idx==arr.size() || target < 0){
             return;
         }
 
         if(target == 0){
-            if(s.find(combination) == s.end()){
-                ans.push_back(combination);
-                s.insert(combination);
+            if(s.find(combin) == s.end()){
+                ans.push_back(combin);
+                s.insert(combin);
                 return;
             }
         }
 
-        combination.push_back(arr[idx]);
-        
-        //single
-        getcombinations(arr,idx+1,target-arr[idx],ans,combination);
-        //multiple
-        getcombinations(arr,idx,target-arr[idx],ans,combination);
+        combin.push_back(arr[idx]);
+        //include single
+        getAllcombin(arr,idx+1, target-arr[idx], ans, combin);
+        //multiplechoice
+        getAllcombin(arr,idx,target-arr[idx], ans, combin);
+        //not include
+        combin.pop_back();
+        getAllcombin(arr,idx+1,target,ans,combin);
 
-        combination.pop_back();
-        getcombinations(arr,idx+1,target,ans,combination);
     }
     vector<vector<int>> combinationSum(vector<int>& arr, int target) {
         vector<vector<int>> ans;
-        vector<int> combination;
+        vector<int> combin;
 
-        getcombinations(arr, 0, target, ans, combination);
+        getAllcombin(arr,0,target,ans,combin);
 
         return ans;
     }
