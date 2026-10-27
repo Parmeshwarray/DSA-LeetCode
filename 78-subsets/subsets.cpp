@@ -1,25 +1,22 @@
 class Solution {
 public:
-
-    void getAllsubsets(vector<int>& nums, vector<int>& ans, int i, vector<vector<int>>& allsubsets){
-        if(i==nums.size()){
-            allsubsets.push_back({ans});
+    void getcombin(vector<int>& nums,int i, vector<int>& combin, vector<vector<int>>& ans){
+        if(i == nums.size()){
+            ans.push_back(combin);
             return;
         }
 
-        ans.push_back(nums[i]);
-        getAllsubsets(nums,ans,i+1,allsubsets);
-
-         //excluded
-        ans.pop_back(); //backtracking
-        getAllsubsets(nums,ans,i+1,allsubsets);
+        combin.push_back(nums[i]);
+        getcombin(nums,i+1,combin,ans);
+        
+        combin.pop_back();
+        getcombin(nums,i+1,combin,ans);
     }
-
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> allsubsets;
-        vector<int> ans;
+        vector<int> combin;
+        vector<vector<int>> ans;
 
-        getAllsubsets(nums,ans,0,allsubsets);
-        return allsubsets;
+        getcombin(nums,0,combin,ans);
+        return ans;
     }
 };
