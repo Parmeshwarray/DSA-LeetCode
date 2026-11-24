@@ -1,38 +1,33 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
         int n = nums.size();
         vector<vector<int>> ans;
-        sort(nums.begin(),nums.end());
-
+       
         for(int i=0; i<n; i++){
             if(i>0 && nums[i]==nums[i-1]) continue;
-
             for(int j=i+1; j<n;){
 
-                int p = j+1, q = n-1;
+                int st=j+1, end=n-1;
+                while(st < end){
+                    long long sum = (long long)nums[i]+(long long)nums[j]+(long long)nums[st]+(long long)nums[end];
+                    if(sum == target){
+                       ans.push_back({nums[i],nums[j],nums[st],nums[end]});
+                       st++; end--;
 
-                while(p < q){
-                    long long sum =(long long) nums[i] +(long long) nums[j] +(long long) nums[p] + (long long)nums[q];
-
-                    if(sum < target){
-                        p++;
-                    } else if(sum > target){
-                        q--;
+                       while(st < end && nums[st] == nums[st-1]) st++;
+                    } else if(sum < target){
+                        st++;
                     } else {
-
-                    ans.push_back({nums[i],nums[j],nums[p],nums[q]});
-                    p++; q--;
-
-                    while(p<q && nums[p]==nums[p-1]) p++;
+                        end--;
                     }
-
                 }
                 j++;
-                while(j<p && nums[j]==nums[j-1]) j++;
+
+                while(j<n && nums[j]==nums[j-1]) j++;
             }
         }
         return ans;
-
     }
 };
